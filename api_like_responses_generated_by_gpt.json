@@ -1,0 +1,71 @@
+{
+    "status": "ok",
+    "totalResults": 5,
+    "articles": [
+        {
+            "source": {
+                "id": "the-washington-post",
+                "name": "The Washington Post"
+            },
+            "author": "Sarah Johnson",
+            "title": "Climate Change Accelerates: Alarming Study Reveals the Grim Reality",
+            "description": "A comprehensive study shows that climate change is accelerating at an unprecedented rate.",
+            "url": "https://www.washingtonpost.com/climate-change-accelerates",
+            "urlToImage": "https://www.washingtonpost.com/images/climate-change.jpg",
+            "publishedAt": "2023-09-14T10:00:00Z",
+            "content": "A comprehensive study conducted by climate scientists from around the world has revealed alarming trends in climate change. The study, which analyzed data from the past century, indicates that the rate of global temperature increase is accelerating at an unprecedented rate. This could have catastrophic consequences for the planet if immediate action is not taken."
+        },
+        {
+            "source": {
+                "id": "axios",
+                "name": "Axios"
+            },
+            "author": "John Doe",
+            "title": "Tech Giants Join Forces for Groundbreaking AI Research",
+            "description": "Google, Amazon, and Microsoft collaborate on a groundbreaking AI research initiative.",
+            "url": "https://www.axios.com/tech-giants-ai-research",
+            "urlToImage": "https://www.axios.com/images/ai-research.jpg",
+            "publishedAt": "2023-09-14T09:30:00Z",
+            "content": "In a surprising move, tech giants Google, Amazon, and Microsoft have announced a new partnership to advance the field of artificial intelligence. The companies will pool their resources and expertise to tackle some of the most challenging problems in AI research. This collaboration is expected to lead to significant breakthroughs in machine learning and deep learning algorithms."
+        },
+        {
+            "source": {
+                "id": "cnn",
+                "name": "CNN"
+            },
+            "author": "Emily White",
+            "title": "Global Leaders Convene for Urgent Climate Summit",
+            "description": "Leaders from around the world meet to discuss strategies for combatting climate change.",
+            "url": "https://www.cnn.com/global-climate-summit",
+            "urlToImage": "https://www.cnn.com/images/climate-summit.jpg",
+            "publishedAt": "2023-09-13T15:45:00Z",
+            "content": "Leaders from around the world have converged in a virtual summit to discuss urgent measures to combat climate change. The summit, organized by the United Nations, aims to secure commitments from nations to reduce greenhouse gas emissions and transition to renewable energy sources. With climate-related disasters on the rise, there is growing pressure on governments to take meaningful action."
+        },
+        {
+            "source": {
+                "id": "bbc-news",
+                "name": "BBC News"
+            },
+            "author": "Michael Brown",
+            "title": "NASA's Bold Plan to Reach Mars: A Multi-Phase Mission",
+            "description": "NASA unveils an ambitious plan for a manned mission to Mars within the next decade.",
+            "url": "https://www.bbcnews.com/nasa-mars-mission",
+            "urlToImage": "https://www.bbcnews.com/images/nasa-mars.jpg",
+            "publishedAt": "2023-09-13T14:20:00Z",
+            "content": "NASA has revealed an ambitious plan to send astronauts to Mars within the next decade. The space agency outlined a multi-phase mission that involves launching crewed missions to the Moon as a stepping stone to Mars. The plan has garnered excitement among space enthusiasts and scientists, who see this as a significant step toward human colonization of other planets."
+        },
+        {
+            "source": {
+                "id": "techcrunch",
+                "name": "TechCrunch"
+            },
+            "author": "Mark Johnson",
+            "title": "California Startup Unveils Revolutionary Electric Car: The EcoDrive",
+            "description": "A Silicon Valley startup is disrupting the electric car industry with its groundbreaking vehicle design.",
+            "url": "https://www.techcrunch.com/california-startup-ecodrive",
+            "urlToImage": "https://www.techcrunch.com/images/ecodrive.jpg",
+            "publishedAt": "2023-09-12T18:15:00Z",
+            "content": "A California-based startup is making waves in the electric car industry with the launch of its revolutionary electric vehicle (EV). The EV, known as the 'EcoDrive,' boasts an unprecedented range and charging speed, making it a game-changer in the transition to sustainable transportation. Industry experts predict that this innovation will drive competition and accelerate the adoption of electric vehicles worldwide."
+        }
+    ]
+}
