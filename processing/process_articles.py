@@ -1,37 +1,8 @@
 from transformers import pipeline
 import pandas as pd
-import requests
 import re
-import json
 import hashlib
 from datetime import datetime
-import os
-from typing import Tuple
-from dotenv import load_dotenv
-
-load_dotenv()
-
-
-## HELPER FUNCTIONS
-def fetch_top_news_articles(
-    country: str = None,
-    category: str = None,
-) -> Tuple[str, int, dict]:
-    # Prepare request url
-    api_key = os.getenv("NEWS_API_KEY")
-    url = f"https://newsapi.org/v2/top-headlines?apiKey={api_key}"
-    # Specify the url request if needed
-    if category is not None:
-        request_category = f"category={category}"
-        url += f"&{request_category}"
-    if country is not None:
-        request_country = f"country={country}"
-        url += f"&{request_country}"
-
-    # API Call
-    response = requests.get(url)
-    print(response.json())
-    return response.json()
 
 
 def value_was_removed(value: str) -> bool:
@@ -48,31 +19,52 @@ def clean_article_metadata(text: str) -> str:
     return cleaned_text.replace("\r\n", "")
 
 
-def process_article(article, pipe):
-    article_source = article.get("source").get("name")
-    # If removed field do not retain article
-    if value_was_removed(article_source):
-        return None
+def article_data_is_complete(article: dict) -> bool:
+    """Check for missing values or incomplete metadata in articles extracted from the news api
 
-    article_title = article.get("title")
-    article_description = article.get("description")
-    article_content = article.get("content")
-    article_publish_date = article.get("publishedAt")
+    Args:
+        article (dict): a json with the data related to an article
+
+    Returns:
+        bool: if no none value or str true will be returned, else false
+    """
+    # If removed field do not retain article
+    if value_was_removed(article.get("source").get("name")):
+        return None
     # If Missing field and None string do not retain article
     if any(
         list(
             map(
                 lambda x: x is None or value_has_none_string(x),
                 [
-                    article_title,
-                    article_description,
-                    article_content,
-                    article_publish_date,
+                    article.get("title"),
+                    article.get("description"),
+                    article.get("content"),
+                    article.get("publishedAt"),
                 ],
             )
         )
     ):
-        return None
+        return False
+    else:
+        return True
+
+
+def enrich_article(article: dict, pipe) -> dict:
+    """Clean data form an article and feed it to the detection model
+
+    Args:
+        article (dict): a json with the data related to an article
+        pipe (_type_): instance of the detector model
+
+    Returns:
+        dict: article data enriched with a fake / real label and a confidence score
+    """
+    article_source = article.get("source").get("name")
+    article_title = article.get("title")
+    article_description = article.get("description")
+    article_content = article.get("content")
+    article_publish_date = article.get("publishedAt")
 
     # Initialize variables with default values
     title_detection = ["", 0.0]
@@ -110,32 +102,23 @@ def process_article(article, pipe):
     }
 
 
-## END HELPER FUNCTIONS
+def process_articles(articles: list[dict]) -> list[dict]:
+    """Go through a batch of articles, select and labelize them as fake / real
 
-# Call To the News API
+    Args:
+        articles (list[dict]): batch of articles data in a json format
 
-# Load articles dict from file to save on api calls
-# with open("api_like_responses_generated_by_gpt.json", "r") as user_file:
-# with open("api_response_top_headlines.json", "r") as user_file:
-#    response = user_file.read()
-# parsed_json = json.loads(response)
-
-# status, count, articles = parsed_json.values()
-
-
-def request_and_process_news() -> list[dict] | str:
-    response = fetch_top_news_articles(country="us", category="technology")
-    processing_response = []
-    if response["status"] == "ok":
-        _, _, articles = response.values()
-        pipe = pipeline("text-classification", model="roberta-base-openai-detector")
-        for article in articles:
-            enrich_article = process_article(article, pipe)
-            if enrich_article is not None:
-                processing_response.append(enrich_article)
-        return processing_response
-    else:
-        return response
+    Returns:
+        list[dict]: skimmed and enriched bacth of articles
+    """
+    enriched_articles = []
+    # LLM Detector pipeline
+    pipe = pipeline("text-classification", model="roberta-base-openai-detector")
+    for article in articles:
+        if article_data_is_complete(article):
+            enriched_article = enrich_article(article, pipe)
+            enriched_articles.append(enriched_article)
+    return enriched_articles
 
 
 # Load model directly
