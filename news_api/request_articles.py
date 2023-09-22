@@ -24,5 +24,4 @@ def fetch_top_news_articles(
 
     # API Call
     response = requests.get(url)
-    print(response.json())
     return response.json()
