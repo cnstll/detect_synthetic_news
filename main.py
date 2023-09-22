@@ -45,6 +45,25 @@ async def sync_news_articles(db: Session = Depends(get_db)):
         raise HTTPException(status_code=response["code"], detail=response["message"])
 
 
+@app.get(path="/sync-articles")
+async def sync_articles_from_query(db: Session = Depends(get_db)):
+    response = request_articles.fetch_all_news_articles(
+        query="artificial intelligence", language="en"
+    )
+    if response["status"] == "error":
+        return {"status": response["status"], "msg": response["message"]}
+    else:
+        _, _, articles = response.values()
+        articles = process_articles.process_articles(articles)
+        # Verify if article already exists in db
+        batched_articles = []
+        for article in articles:
+            if crud.get_article_by_id(db, article["article_id"]) is None:
+                batched_articles.append(article)
+        print(f"\nNum of synced articles is {len(batched_articles)}\n")
+        return crud.batch_create_articles(db, batched_articles)
+
+
 @app.get(path="/articles", response_model=list[schemas.NewsArticle])
 async def get_all_available_articles(db: Session = Depends(get_db)):
     return crud.get_all_articles(db, limit=100)
