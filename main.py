@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import crud, database, models, schemas
+from database import crud, database, models, schemas, aggregation
 from news_api import request_articles
 from processing import process_articles
 
@@ -48,3 +48,12 @@ async def sync_news_articles(db: Session = Depends(get_db)):
 @app.get(path="/articles", response_model=list[schemas.NewsArticle])
 async def get_all_available_articles(db: Session = Depends(get_db)):
     return crud.get_all_articles(db, limit=100)
+
+
+# TODO : Endpoint for calculating fake / real distribution per source
+@app.get(path="/articles/get-distribution-fake-real-per-source")
+async def get_distribution_fake_real_per_source(db: Session = Depends(get_db)):
+    return aggregation.aggregate_per_sources(db)
+
+
+# TODO : Endpoint for calculating average confidence per label per source
