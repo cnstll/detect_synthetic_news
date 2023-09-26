@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 
-# Read (Get by ID)
+# Query summing and averaging article metadata labels and confidence scores per source
 def aggregate_per_sources(db: Session):
     result = (
         db.query(
