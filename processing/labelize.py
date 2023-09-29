@@ -46,16 +46,21 @@ def labelize_articles(articles: list[dict]) -> list[dict]:
     """
     labelized_articles = []
     # LLM Detector pipeline
-    pipe = pipeline("text-classification", model="roberta-base-openai-detector")
-    for article in articles:
-        enriched_metadata = enrich_article(article, pipe)
-        article.update(enriched_metadata)
-        labelized_articles.append(article)
+    models = [
+        # (
+        #     "roberta-base-openai-detector",
+        #     pipeline("text-classification", model="roberta-base-openai-detector"),
+        # ),
+        (
+            "Hello-SimpleAI-chatgpt-detector-roberta",
+            pipeline(
+                "text-classification", model="Hello-SimpleAI/chatgpt-detector-roberta"
+            ),
+        ),
+    ]
+    for _, pipe in models:
+        for article in articles:
+            enriched_metadata = enrich_article(article, pipe)
+            article.update(enriched_metadata)
+            labelized_articles.append(article)
     return labelized_articles
-
-
-# Load model directly
-# from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
-# tokenizer = AutoTokenizer.from_pretrained("roberta-base-openai-detector")
-# model = AutoModelForSequenceClassification.from_pretrained("roberta-base-openai-detector")
