@@ -1,6 +1,7 @@
 import os
 from typing import Tuple
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 import requests
 
 load_dotenv()
@@ -36,7 +37,7 @@ def fetch_top_news_articles(
 
 
 def fetch_news_articles_based_on_query(
-    from_date: str = "2023-09-15",
+    # from_date: str = "2023-09-01",
     language: str = None,
     query: str = None,
     category: str = None,
@@ -44,8 +45,8 @@ def fetch_news_articles_based_on_query(
 ) -> Tuple[str, int, dict]:
     # Prepare request url
     api_key = os.getenv("NEWS_API_KEY")
-    url = f"https://newsapi.org/v2/everything?from_date={from_date}&page={page}&sources={NEWS_SOURCES_SELECTOR}&apiKey={api_key}"
-
+    month_to_date = datetime.today() - timedelta(days=30)
+    url = f"https://newsapi.org/v2/everything?from={month_to_date}&page={page}&sources={NEWS_SOURCES_SELECTOR}&apiKey={api_key}"
     # Specify the url request if needed
     if category is not None:
         request_category = f"category={category}"
