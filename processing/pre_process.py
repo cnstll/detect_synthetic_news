@@ -20,7 +20,8 @@ def clean_article_metadata(text: str) -> str:
 
 
 def generate_article_id(source: str, title: str, publish_date: str) -> str:
-    id = f"{publish_date} | {source} | {title}"
+    ingestion_date = datetime.today()
+    id = f"{ingestion_date}|{publish_date}|{source}|{title}"
     m = hashlib.sha256(id.encode("UTF-8"))
     return m.hexdigest()
 
@@ -56,7 +57,7 @@ def article_data_is_complete(article: dict) -> bool:
         return True
 
 
-def prepare_metadata(article: dict) -> dict:
+def prepare_metadata(searched_keywords: str, article: dict) -> dict:
     """Extract pieces of metadata from the article info
 
     Args:
@@ -90,10 +91,13 @@ def prepare_metadata(article: dict) -> dict:
         "article_title": article_title,
         "article_description": article_description,
         "article_content": article_content,
+        "searched_keywords": searched_keywords,
     }
 
 
-def select_and_prepare_articles(articles: list[dict]) -> list[dict]:
+def select_and_prepare_articles(
+    searched_keywords: str, articles: list[dict]
+) -> list[dict]:
     """Go through a batch of articles, remove articles with uncomplete data and clean metadata
     Args:
         articles (list[dict]): batch of articles data in a json format
@@ -104,6 +108,6 @@ def select_and_prepare_articles(articles: list[dict]) -> list[dict]:
     selected_articles = []
     for article in articles:
         if article_data_is_complete(article):
-            article_metadata = prepare_metadata(article)
+            article_metadata = prepare_metadata(searched_keywords, article)
             selected_articles.append(article_metadata)
     return selected_articles
