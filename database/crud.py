@@ -47,6 +47,20 @@ def get_article_by_publication_date(db: Session, article_publication_date: str):
     )
 
 
+def get_article_within_date_range(
+    db: Session, from_date: str, to_date: str, limit: int = 100
+):
+    return (
+        db.query(models.NewsArticle)
+        .filter(
+            models.NewsArticle.article_publication_date >= from_date,
+            models.NewsArticle.article_publication_date <= to_date,
+        )
+        .limit(limit)
+        .all()
+    )
+
+
 # Read (Get all articles)
 def get_all_articles(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.NewsArticle).offset(skip).limit(limit).all()

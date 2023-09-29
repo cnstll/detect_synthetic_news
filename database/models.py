@@ -11,6 +11,7 @@ class NewsArticle(Base):
     article_url = Column(String, nullable=False)
     article_publication_date = Column(DateTime, nullable=False)
     article_title = Column(String, nullable=False)
+    searched_keywords = Column(String, nullable=False)
     title_detection_label = Column(String, nullable=True)
     title_detection_score = Column(Float, nullable=True)
     article_description = Column(String, nullable=True)

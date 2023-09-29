@@ -8,6 +8,7 @@ class NewsArticle(BaseModel):
     article_url: str
     article_publication_date: datetime
     article_title: str
+    searched_keywords: str
     title_detection_label: str
     title_detection_score: float
     article_description: str

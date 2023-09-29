@@ -4,10 +4,11 @@ from . import models, schemas
 
 
 # Query summing and averaging article metadata labels and confidence scores per source
-def aggregate_per_sources(db: Session):
+def aggregate_per_sources(db: Session, from_date: str, to_date: str):
     result = (
         db.query(
             models.NewsArticle.article_source,
+            models.NewsArticle.searched_keywords,
             func.sum(
                 case([(models.NewsArticle.title_detection_label == "Fake", 1)], else_=0)
             ).label("sum_of_fake_titles"),
@@ -103,7 +104,9 @@ def aggregate_per_sources(db: Session):
                 )
             ).label("average_score_for_real_contents"),
         )
-        .group_by(models.NewsArticle.article_source)
+        .group_by(
+            models.NewsArticle.article_source, models.NewsArticle.searched_keywords
+        )
         .all()
     )
     return result
