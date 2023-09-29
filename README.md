@@ -14,3 +14,9 @@ I selected top news sources based on their reach:
 - Top newspapers in the US based on circulation numbers : [article](https://en.wikipedia.org/wiki/List_of_newspapers_in_the_United_States)   
 - Top cable news based on households reached : [article](https://en.wikipedia.org/wiki/United_States_cable_news)  
 - Top online tech news based on appearance in search engine results.   
+
+
+## Article and Research Papers
+- [Catching a Unicorn with GLTR: A tool to detect automatically generated text](http://gltr.io/)
+- [Stanford U’s DetectGPT Takes a Curvature-Based Approach to LLM-Generated Text Detection](https://syncedreview.com/2023/02/01/stanford-us-detectgpt-takes-a-curvature-based-approach-to-llm-generated-text-detection/)
+- [The Science of Detecting LLM-Generated Texts](https://arxiv.org/pdf/2303.07205.pdf)
